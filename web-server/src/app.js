@@ -1,6 +1,8 @@
 const express = require('express')
 const path = require('path')
 const hbs = require('hbs')
+const geoCode = require('./utils/geocode')
+const getWeather = require('./utils/getWeather')
 
 const app = express()
 
@@ -34,6 +36,34 @@ app.get('/help', (req, res) => {
     res.render('help', { title: 'help' })
 })
 
+app.get('/weather', (req, res) => {
+    if (req.query.address) {
+
+        const data = geoCode(req.query.address, (err, response) => {
+            if (err) {
+                return res.send(err)
+            } else {
+
+                console.log(`Getting weather for ${response.location}`)
+
+                getWeather(`${response.lat},${response.long}`, (errr, rspnse) => {
+                    if (err) {
+                        return res.send(errr)
+                    }
+                    else {
+                        return res.send({ forecast: rspnse, location: response.location, address: req.query.address })
+                    }
+                })
+
+
+            }
+        })
+    } else {
+        res.send({ error: "no address provided" })
+    }
+
+
+})
 
 app.get('/help/*', (req, res) => {
     res.render('404', { msg: 'help data not found' })
@@ -56,5 +86,5 @@ app.get('*', (req, res) => {
 
 
 app.listen(3000, () => {
-    console.log('starting at port 3000')
+    console.log('starting at port http://localhost:3000')
 })
