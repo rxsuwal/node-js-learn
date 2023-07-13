@@ -28,3 +28,15 @@ ul{
     align-items: center;
     justify-content: space-between;
 }
+
+input{
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+button{
+    cursor: pointer;
+    border: 1px solid #888;
+    padding: 8px;
+    background-color: beige;
+}

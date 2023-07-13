@@ -8,7 +8,7 @@ const geoCode = (address, callback) => {
         if (error) {
             callback('unable to connect to mapbox', undefined)
         } else if (features.length == 0) {
-            callback('unable to find locarion', undefined)
+            callback('unable to find location', undefined)
         } else {
             callback(undefined, {
                 lat: features[0].center[0],
