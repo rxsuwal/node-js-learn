@@ -16,3 +16,5 @@ add(1, 4, (sum) => {
     console.log(sum) // Should print: 5
 })
 
+
+
