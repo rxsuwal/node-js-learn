@@ -2,8 +2,6 @@ require('../src/db/mongoose')
 
 const user = require('../src/models/user')
 
-// 64cd25ac549937b0c057f548
-
 user.findByIdAndUpdate('64cd25ac549937b0c057f548', { password: "muji randiko ban" }).then(res => {
     console.log(res)
 
