@@ -25,7 +25,6 @@ app.use(express.static(publicPathDirectory))
 
 // HANDLE BARS HTML TEMPLATE
 
-
 app.get('', (req, res) => {
     res.render('index', { title: 'TITLE FOR HBS' })
 })
