@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const validater = require('validator')
 var bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const Task = require('./task');
 
 
 const userSchema = mongoose.Schema({
@@ -32,13 +34,48 @@ const userSchema = mongoose.Schema({
             }
         },
 
-    }
+    },
+    tokens: [
+        {
+            token: {
+                type: String,
+                required: true
+            }
+        }
+    ]
+})
+
+
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
 })
 
 
 
+userSchema.methods.generateAuthToken = async function () {
+    const user = this
+    const token = jwt.sign({ _id: user._id.toString() }, 'task-manager-api')
+
+    user.tokens = user.tokens.concat({ token })
+    await user.save()
+
+    return token
+
+}
+userSchema.methods.toJSON = function () {
+    const user = this
+    const userData = user.toObject()
+    delete userData.password
+    delete userData.tokens
+
+    return userData
+
+}
+
 userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({email})
+    const user = await User.findOne({ email })
 
     if (!user) {
         throw new Error('email doesnot exist')
@@ -63,6 +100,13 @@ userSchema.pre('save', async function (next) {
         user.password = await bcrypt.hash(user.password, 8)
     }
 
+    next()
+})
+
+// DELETING CONTENT ON USER DELETE
+userSchema.pre('remove', async function (next) {
+    const user = this
+    await Task.deleteMany(this.user._id)
     next()
 })
 

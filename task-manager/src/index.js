@@ -6,6 +6,11 @@ require('./db/mongoose')
 const app = express()
 const port = process.env.PORT || 3000
 
+// app.use((req,res,next)=>{
+//     console.log(req.method,req.path)
+//     res.status(503).send("server under maintenance")
+// })
+
 app.use(express.json())
 
 // USER
@@ -19,4 +24,5 @@ app.use(taskRouter)
 app.listen(port, () => {
     console.log("Server stared at " + `http://localhost:${port}`)
 })
+
 
