@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const validater = require('validator')
 
 const taskSchema = mongoose.Schema({
     description: {
@@ -16,6 +15,8 @@ const taskSchema = mongoose.Schema({
         required:true,
         ref:'User'
     }
+},{
+    timestamps:true
 })
 
 // taskSchema.methods.toJSON = function () {

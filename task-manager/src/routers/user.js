@@ -51,6 +51,7 @@ router.post('/user/logoutall', authMiddleware, async (req, res) => {
 })
 
 // router.get('/users', authMiddleware, async (req, res) => {
+//     console.log('first')
 
 //     try {
 //         const users = await User.find({})

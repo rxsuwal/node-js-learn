@@ -10,6 +10,14 @@ const port = process.env.PORT || 3000
 //     console.log(req.method,req.path)
 //     res.status(503).send("server under maintenance")
 // })
+const multer = require('multer')
+const upload = multer({
+    dest: './uploads'
+})
+
+app.post('/upload',(req,res)=>{
+    res.send()
+})
 
 app.use(express.json())
 
