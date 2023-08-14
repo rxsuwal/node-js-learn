@@ -72,6 +72,14 @@ router.get('/user/me', authMiddleware, async (req, res) => {
     res.send(req.user)
 })
 
+const multer = require('multer')
+const upload = multer({
+    dest: './avatar'
+})
+router.post('/user/me/avatar', upload.single('upload'), async (req, res) => {
+    res.send()
+})
+
 router.patch('/user/me',authMiddleware, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['password', 'name']

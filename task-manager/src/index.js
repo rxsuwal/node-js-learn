@@ -15,7 +15,7 @@ const upload = multer({
     dest: './uploads'
 })
 
-app.post('/upload',(req,res)=>{
+app.post('/upload', upload.single('upload'), (req, res) => {
     res.send()
 })
 
