@@ -115,4 +115,30 @@ router.delete('/task/:id', auth, async (req, res) => {
 
 })
 
+
+
+const multer = require('multer')
+const upload = multer({
+    dest: './uploads',
+    limits: {
+        fileSize: 1000000
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(doc|docx|pdf)$/)) {
+            return cb("Only doc,docx,pdf files are allowed")
+        }
+
+        cb(undefined, true)
+    }
+})
+
+router.post('/uploads', upload.single('upload'), async (req, res) => {
+
+
+    res.send()
+}, (err, req, res, next) => {
+    console.log(err)
+    res.status(400).send({ err })
+})
+
 module.exports = router
